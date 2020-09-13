@@ -4,7 +4,7 @@ use cetriolo;
 
 create user 'user'@'localhost' identified by 'fatec';
 
-grant select, insert, delete, update on cetrioloo.* to user@'localhost';
+grant select, insert, delete, update on cetriolo.* to user@'localhost';
 
 create table usu_usuario (
 	id bigint unsigned primary key auto_increment,
