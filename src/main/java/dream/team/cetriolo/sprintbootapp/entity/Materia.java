@@ -27,7 +27,7 @@ public class Materia {
     private Set<Usuario> usuarios;
 
 
-    
+
     public Long getId() {
         return this.id;
     }
@@ -48,7 +48,7 @@ public class Materia {
         this.nome = nome;
     }
 
-    public void setAlunos(Set<Usuario> usuarios) {
+    public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
 
