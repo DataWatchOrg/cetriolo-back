@@ -6,4 +6,6 @@ import dream.team.cetriolo.sprintbootapp.entity.Materia;
 
 public interface MateriaRepository extends JpaRepository<Materia, Long> {
     
+    public Materia findByNome(String materia);
+
 }

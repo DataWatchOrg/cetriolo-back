@@ -15,6 +15,7 @@ import dream.team.cetriolo.sprintbootapp.entity.Materia;
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
 import dream.team.cetriolo.sprintbootapp.repository.MateriaRepository;
 import dream.team.cetriolo.sprintbootapp.repository.UsuarioRepository;
+import dream.team.cetriolo.sprintbootapp.service.SecurityService;
 
 @SpringBootTest
 @Transactional
@@ -26,6 +27,9 @@ class CetrioloApplicationTests {
 
     @Autowired
     private MateriaRepository materiaRepo;
+
+    @Autowired
+    private SecurityService secService;
 
 	@Test
 	void contextLoads() {
@@ -81,8 +85,26 @@ class CetrioloApplicationTests {
     }
 
     @Test
+    void testaConsultaPorNomeEEmailQuery() {
+        Usuario usuario = usuarioRepo.buscarUsuarioPorNomeEEmail("Ana", "ana@email.com");
+        assertEquals(1L, usuario.getId());
+    }
+
+    @Test
     void testaConsultaUsuarioNomeMateria() {
         List<Usuario> usuarios = usuarioRepo.findByMateriasNome("Algoritmos");
         assertFalse(usuarios.isEmpty());
+    }
+
+    @Test
+    void testaConsultaUsuarioNomeMateriaQuery() {
+        List<Usuario> usuarios = usuarioRepo.buscaMateriasPorNome("Algoritmos");
+        assertFalse(usuarios.isEmpty());
+    }
+
+    @Test
+    void testaServicoCriaUsuario() {
+        Usuario usuario = secService.criarUsuario("Dede", "dedemeikg@gmail.com", "129112938982", "Gestão de Projetos");
+        assertNotNull(usuario);
     }
 }
