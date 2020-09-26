@@ -1,6 +1,8 @@
 package dream.team.cetriolo.sprintbootapp.service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -37,5 +39,32 @@ public class SecurittyServiceImpl implements SecurityService {
         usuario.getMaterias().add(mat);
         usuRepo.save(usuario);
         return usuario;
-    }    
+    }
+    
+    @Override
+    public List<Usuario> buscarTodosUsuarios(){
+        return usuRepo.findAll();
+    }
+
+    @Override
+    public Usuario buscarUsuarioPorId(Long id) {
+        Optional<Usuario> usuarioOp = usuRepo.findById(id);
+        if(usuarioOp.isPresent()){
+            return usuarioOp.get();
+        } else {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
+    }
+
+    @Override
+    public List<Usuario> buscarUsuarioPorNome(String nome) {
+        List<Usuario> usuarios = usuRepo.findByNome(nome);
+        Optional<List<Usuario>> usuariosOp = Optional.of(usuarios);
+
+        if(!usuariosOp.isEmpty()) {
+            return usuariosOp.get();
+        } else {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
+    }
 }
