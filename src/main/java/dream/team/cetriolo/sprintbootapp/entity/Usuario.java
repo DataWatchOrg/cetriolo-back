@@ -2,6 +2,8 @@ package dream.team.cetriolo.sprintbootapp.entity;
 
 import java.util.Set;
 
+import dream.team.cetriolo.sprintbootapp.controller.View;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "usu_usuario")
 public class Usuario {
@@ -22,15 +26,18 @@ public class Usuario {
     @Column(name = "id")
     private Long id;
 
+    @JsonView(View.UsuarioResumo.class)
     @Column(name = "usu_nome")
     private String nome;
 
+    @JsonView(View.UsuarioResumo.class)
     @Column(name = "usu_email")
     private String email;
 
     @Column(name = "usu_telefone")
     private String telefone;
 
+    @JsonView(View.UsuarioResumo.class)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "uma_usuario_materia",
         joinColumns = { @JoinColumn(name = "usu_id") },

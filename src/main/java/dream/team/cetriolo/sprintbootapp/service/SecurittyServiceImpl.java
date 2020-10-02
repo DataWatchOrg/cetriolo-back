@@ -47,11 +47,6 @@ public class SecurittyServiceImpl implements SecurityService {
     }
 
     @Override
-    public List<Materia> buscarTodasMaterias(){
-        return matRepo.findAll();
-    }
-
-    @Override
     public Usuario buscarUsuarioPorId(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
         if(usuarioOp.isPresent()){
@@ -72,4 +67,22 @@ public class SecurittyServiceImpl implements SecurityService {
             throw new RuntimeException("Usuário não encontrado!");
         }
     }
+
+    /* Materia */
+    @Override
+    public List<Materia> buscarTodasMaterias(){
+        return matRepo.findAll();
+    }
+
+    @Transactional
+	public Materia criarMateria(String nome) {
+        Materia materia = matRepo.findByNome(nome);
+        if(materia == null) {
+            materia = new Materia();
+            materia.setNome(nome);
+            matRepo.save(materia);
+        }
+        return materia;
+    }
+
 }

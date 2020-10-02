@@ -12,6 +12,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import dream.team.cetriolo.sprintbootapp.controller.View;
 
 @Entity
 @Table(name = "mat_materia")
@@ -22,14 +25,13 @@ public class Materia {
     @Column(name = "mat_id")
     private Long id;
 
+    @JsonView(View.UsuarioResumo.class)
     @Column(name = "mat_nome")
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "materias")
     @JsonIgnore
     private Set<Usuario> usuarios;
-
-
 
     public Long getId() {
         return this.id;

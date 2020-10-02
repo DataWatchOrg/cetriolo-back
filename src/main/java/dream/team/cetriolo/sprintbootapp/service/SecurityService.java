@@ -11,9 +11,14 @@ public interface SecurityService {
 
     public List<Usuario> buscarTodosUsuarios();
 
-    public List<Materia> buscarTodasMaterias();
-
     public Usuario buscarUsuarioPorId(Long id);
 
     public List<Usuario> buscarUsuarioPorNome(String nome);
+
+
+    /* Matéria */
+
+    public Materia criarMateria(String nome);
+
+    public List<Materia> buscarTodasMaterias();
 }
