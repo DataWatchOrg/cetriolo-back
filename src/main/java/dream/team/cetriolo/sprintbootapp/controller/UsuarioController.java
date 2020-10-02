@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,4 +47,9 @@ public class UsuarioController {
     public Usuario cadastrarNovoUsuario(@RequestBody Usuario usuario) {
         return securityService.criarUsuario(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), "");
     }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public String deletarUsuario(@PathVariable Long id) {
+        return securityService.deletarUsuario(id);
+  }
 }

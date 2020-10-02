@@ -68,6 +68,17 @@ public class SecurittyServiceImpl implements SecurityService {
         }
     }
 
+    @Transactional
+    public String deletarUsuario(Long id) {
+        Optional<Usuario> usuarioOp = usuRepo.findById(id);
+        if(usuarioOp.isPresent()){
+            usuRepo.delete(usuarioOp.get());
+            return "Usuário deletado com sucesso!";
+        } else {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
+    }
+
     /* Materia */
     @Override
     public List<Materia> buscarTodasMaterias(){
@@ -84,5 +95,4 @@ public class SecurittyServiceImpl implements SecurityService {
         }
         return materia;
     }
-
 }
