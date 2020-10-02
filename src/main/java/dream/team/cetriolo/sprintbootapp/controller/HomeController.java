@@ -10,6 +10,6 @@ public class HomeController {
     
     @GetMapping
     public String welcome() {
-        return "CETRIOLO UN'AUTA VOLTA!!!";
+        return "CETRIOLO UN'AUTRA VOLTA!!!";
     }
 }

@@ -2,6 +2,7 @@ package dream.team.cetriolo.sprintbootapp.service;
 
 import java.util.List;
 
+import dream.team.cetriolo.sprintbootapp.entity.Materia;
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
 
 public interface SecurityService {
@@ -9,6 +10,8 @@ public interface SecurityService {
     public Usuario criarUsuario(String nome, String email, String telefone, String materia);
 
     public List<Usuario> buscarTodosUsuarios();
+
+    public List<Materia> buscarTodasMaterias();
 
     public Usuario buscarUsuarioPorId(Long id);
 

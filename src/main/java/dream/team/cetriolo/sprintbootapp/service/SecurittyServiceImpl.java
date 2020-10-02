@@ -47,6 +47,11 @@ public class SecurittyServiceImpl implements SecurityService {
     }
 
     @Override
+    public List<Materia> buscarTodasMaterias(){
+        return matRepo.findAll();
+    }
+
+    @Override
     public Usuario buscarUsuarioPorId(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
         if(usuarioOp.isPresent()){
