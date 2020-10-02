@@ -67,4 +67,22 @@ public class SecurittyServiceImpl implements SecurityService {
             throw new RuntimeException("Usuário não encontrado!");
         }
     }
+
+    /* Materia */
+    @Override
+    public List<Materia> buscarTodasMaterias(){
+        return matRepo.findAll();
+    }
+
+    @Transactional
+	public Materia criarMateria(String nome) {
+        Materia materia = matRepo.findByNome(nome);
+        if(materia == null) {
+            materia = new Materia();
+            materia.setNome(nome);
+            matRepo.save(materia);
+        }
+        return materia;
+    }
+
 }

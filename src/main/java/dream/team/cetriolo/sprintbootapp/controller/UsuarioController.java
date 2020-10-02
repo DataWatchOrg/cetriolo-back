@@ -2,6 +2,8 @@ package dream.team.cetriolo.sprintbootapp.controller;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +30,13 @@ public class UsuarioController {
         return securityService.buscarTodosUsuarios();
     }
 
+    @JsonView(View.UsuarioResumo.class)
     @GetMapping(value = "/{id}")
     public Usuario buscarUsuarioPorId(@PathVariable("id") Long id) {
         return securityService.buscarUsuarioPorId(id);
     }
 
+    @JsonView(View.UsuarioResumo.class)
     @GetMapping(value = "/nome")
     public List<Usuario> buscarUsuarioPorNome(@RequestParam("nome") String nome) {
         return securityService.buscarUsuarioPorNome(nome);
