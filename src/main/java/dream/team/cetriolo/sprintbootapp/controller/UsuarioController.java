@@ -54,7 +54,7 @@ public class UsuarioController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(
             uriComponentsBuilder.path(
-                "/" + usuario.getId()).build().toUri());
+                "/usuario/" + usuario.getId()).build().toUri());
 
         return new ResponseEntity<Usuario>(usuario, responseHeaders, HttpStatus.CREATED);
     }
