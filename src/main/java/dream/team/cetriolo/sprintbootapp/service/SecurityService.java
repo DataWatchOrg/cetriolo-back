@@ -25,4 +25,6 @@ public interface SecurityService {
     public Materia criarMateria(String nome);
 
     public List<Materia> buscarTodasMaterias();
+
+    public Materia buscarMateriaPorId(Long id);
 }
