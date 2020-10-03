@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,5 +64,25 @@ public class UsuarioController {
     @DeleteMapping(value = "/delete/{id}")
     public String deletarUsuario(@PathVariable Long id) {
         return securityService.deletarUsuario(id);
-  }
+    }
+
+    @PutMapping(value = "/alterar")
+    public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario usuario, 
+        UriComponentsBuilder uriComponentsBuilder) {
+
+        usuario  = securityService.alterarUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getTelefone());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(
+            uriComponentsBuilder.path(
+                "/usuario/" + usuario.getId()).build().toUri());
+
+        return new ResponseEntity<Usuario>(usuario, responseHeaders, HttpStatus.CREATED);
+    }      
+
+    /*
+    @PutMapping(value = "/alterar")
+    public Usuario alterarUsuario(@RequestBody Usuario usuario) {
+        return securityService.alterarUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getTelefone());
+    }
+    */
 }

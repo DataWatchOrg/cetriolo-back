@@ -79,6 +79,24 @@ public class SecurittyServiceImpl implements SecurityService {
         }
     }
 
+    @Transactional
+	public Usuario alterarUsuario(Long id, String nome, String email, String telefone) {
+        Optional<Usuario> usuarioOp = usuRepo.findById(id);
+        if(usuarioOp.isPresent()){
+            usuarioOp.get().setNome(nome);
+            usuarioOp.get().setEmail(email);
+            usuarioOp.get().setTelefone(telefone);
+            return usuarioOp.get();
+        } else {
+            Usuario usuario = new Usuario();
+            usuario.setNome(nome);
+            usuario.setEmail(email);
+            usuario.setTelefone(telefone);
+            usuRepo.save(usuario);
+            return usuario;
+        }
+    }
+
     /* Materia */
     @Override
     public List<Materia> buscarTodasMaterias(){

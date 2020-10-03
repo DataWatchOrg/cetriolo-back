@@ -19,6 +19,7 @@ public interface SecurityService {
 
     public String deletarUsuario(Long id);
 
+    public Usuario alterarUsuario(Long id, String nome, String email, String telephone);
 
     /* Matéria */
 
