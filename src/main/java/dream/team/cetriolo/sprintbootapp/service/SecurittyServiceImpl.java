@@ -85,4 +85,16 @@ public class SecurittyServiceImpl implements SecurityService {
         return materia;
     }
 
+    @Override
+    public Materia buscarMateriaPorId(Long id) {
+        Optional<Materia> materiaOp = matRepo.findById(id);
+        if(materiaOp.isPresent()){
+            return materiaOp.get();
+        } else {
+            throw new RuntimeException("Matéria não encontrada!");
+        }
+    }
+
+
+
 }
