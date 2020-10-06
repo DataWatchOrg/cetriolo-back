@@ -29,11 +29,13 @@ public class MateriaController {
     @Autowired
     private SecurityService securityService;
 
+    @JsonView(View.MateriaResumo.class)
     @GetMapping
     public List<Materia> buscarTodasMaterias() {
         return securityService.buscarTodasMaterias();
     }
 
+    @JsonView(View.MateriaResumo.class)
     @GetMapping(value = "/{id}")
     public Materia buscaMateriaPorId(@PathVariable("id") Long id) {
         return securityService.buscarMateriaPorId(id);

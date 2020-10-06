@@ -31,6 +31,7 @@ public class UsuarioController {
     @Autowired
     private SecurityService securityService;
 
+    @JsonView(View.UsuarioResumo.class)
     @GetMapping
     public List<Usuario> buscarTodosUsuarios() {
         return securityService.buscarTodosUsuarios();
