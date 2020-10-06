@@ -25,7 +25,7 @@ public class Materia {
     @Column(name = "mat_id")
     private Long id;
 
-    @JsonView(View.UsuarioResumo.class)
+    @JsonView({View.UsuarioResumo.class, View.MateriaResumo.class})
     @Column(name = "mat_nome")
     private String nome;
 

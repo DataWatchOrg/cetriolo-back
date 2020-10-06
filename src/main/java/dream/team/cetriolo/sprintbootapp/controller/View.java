@@ -4,4 +4,5 @@ public class View {
 
     public static class UsuarioResumo {}
 
+    public static class MateriaResumo {}
 }
