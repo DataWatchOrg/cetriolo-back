@@ -68,6 +68,7 @@ public class UsuarioController {
     }
 
     @PutMapping(value = "/alterar")
+    @JsonView(View.UsuarioResumo.class)
     public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario usuario, 
         UriComponentsBuilder uriComponentsBuilder) {
 
