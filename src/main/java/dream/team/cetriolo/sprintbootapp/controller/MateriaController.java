@@ -41,8 +41,9 @@ public class MateriaController {
         return securityService.buscarMateriaPorId(id);
     }
 
+    @JsonView(View.MateriaResumo.class)
     @PostMapping
-    public ResponseEntity<Materia> cadastrarNovoUsuario(@RequestBody Materia materia,
+    public ResponseEntity<Materia> cadastrarNovaMateria(@RequestBody Materia materia,
         UriComponentsBuilder uriComponentsBuilder) {
 
         materia  = securityService.criarMateria(materia.getNome());

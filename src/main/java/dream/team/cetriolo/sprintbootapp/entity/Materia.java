@@ -30,7 +30,6 @@ public class Materia {
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "materias")
-    @JsonIgnore
     private Set<Usuario> usuarios;
 
     public Long getId() {

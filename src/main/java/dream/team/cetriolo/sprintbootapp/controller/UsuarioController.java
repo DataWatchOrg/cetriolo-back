@@ -79,11 +79,4 @@ public class UsuarioController {
 
         return new ResponseEntity<Usuario>(usuario, responseHeaders, HttpStatus.CREATED);
     }      
-
-    /*
-    @PutMapping(value = "/alterar")
-    public Usuario alterarUsuario(@RequestBody Usuario usuario) {
-        return securityService.alterarUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getTelefone());
-    }
-    */
 }
