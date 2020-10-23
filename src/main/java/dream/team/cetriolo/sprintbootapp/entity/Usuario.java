@@ -37,6 +37,9 @@ public class Usuario {
     @Column(name = "usu_telefone")
     private String telefone;
 
+    @Column(name = "usu_senha")
+    private String senha;
+
     @JsonView(View.UsuarioResumo.class)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "uma_usuario_materia",
@@ -62,6 +65,10 @@ public class Usuario {
         return this.telefone;
     }
 
+    public String getSenha() {
+        return this.senha;
+    }
+
     public Set<Materia> getMaterias() {
         return this.materias;
     }
@@ -80,6 +87,10 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public void setMaterias(Set<Materia> materias) {
