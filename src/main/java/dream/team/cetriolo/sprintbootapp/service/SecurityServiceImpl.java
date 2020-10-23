@@ -15,7 +15,7 @@ import dream.team.cetriolo.sprintbootapp.repository.MateriaRepository;
 import dream.team.cetriolo.sprintbootapp.repository.UsuarioRepository;
 
 @Service("SecurityService")
-public class SecurittyServiceImpl implements SecurityService {
+public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
     private UsuarioRepository usuRepo;
@@ -24,7 +24,7 @@ public class SecurittyServiceImpl implements SecurityService {
     private MateriaRepository matRepo;
 
     @Transactional
-	public Usuario criarUsuario(String nome, String email, String telefone, String materia) {
+	public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha) {
         Materia mat = matRepo.findByNome(materia);
         if(mat != null) {
             mat = new Materia();
@@ -35,6 +35,7 @@ public class SecurittyServiceImpl implements SecurityService {
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setTelefone(telefone);
+        usuario.setSenha(senha);
         usuario.setMaterias(new HashSet<Materia>());
         usuario.getMaterias().add(mat);
         usuRepo.save(usuario);

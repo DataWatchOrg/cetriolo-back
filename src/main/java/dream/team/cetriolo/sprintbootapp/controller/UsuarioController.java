@@ -53,7 +53,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> cadastrarNovoUsuario(@RequestBody Usuario usuario, 
         UriComponentsBuilder uriComponentsBuilder) {
         
-        usuario  = securityService.criarUsuario(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), "");
+        usuario  = securityService.criarUsuario(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), "", usuario.getSenha());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(
             uriComponentsBuilder.path(

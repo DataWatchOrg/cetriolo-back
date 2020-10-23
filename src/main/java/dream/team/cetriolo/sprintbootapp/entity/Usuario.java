@@ -13,8 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -47,7 +50,13 @@ public class Usuario {
         inverseJoinColumns = { @JoinColumn(name = "mat_id") })
     private Set<Materia> materias;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "per_id")
+    private Permissao permissao;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    private Set<Tarefa> tarefas;
 
     public Long getId() {
         return this.id;
@@ -73,6 +82,14 @@ public class Usuario {
         return this.materias;
     }
 
+    public Permissao getPermissao() {
+        return this.permissao;
+    }
+
+    public Set<Tarefa> getTarefas() {
+        return this.tarefas;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -95,5 +112,13 @@ public class Usuario {
 
     public void setMaterias(Set<Materia> materias) {
         this.materias = materias;
+    }
+
+    public void setPermissao(Permissao permissao) {
+        this.permissao = permissao;
+    }
+
+    public void getTarefas(Set<Tarefa> tarefas) {
+        this.tarefas = tarefas;
     }
 }

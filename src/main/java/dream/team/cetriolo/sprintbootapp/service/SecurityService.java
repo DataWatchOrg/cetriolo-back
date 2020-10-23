@@ -9,7 +9,7 @@ public interface SecurityService {
     
     /* Usuário */
 
-    public Usuario criarUsuario(String nome, String email, String telefone, String materia);
+    public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha);
 
     public List<Usuario> buscarTodosUsuarios();
 

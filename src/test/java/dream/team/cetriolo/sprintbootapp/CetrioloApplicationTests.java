@@ -12,8 +12,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import dream.team.cetriolo.sprintbootapp.entity.Materia;
+import dream.team.cetriolo.sprintbootapp.entity.Tarefa;
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
 import dream.team.cetriolo.sprintbootapp.repository.MateriaRepository;
+import dream.team.cetriolo.sprintbootapp.repository.PermissaoRepository;
+import dream.team.cetriolo.sprintbootapp.repository.TarefaRepository;
 import dream.team.cetriolo.sprintbootapp.repository.UsuarioRepository;
 import dream.team.cetriolo.sprintbootapp.service.SecurityService;
 
@@ -31,6 +34,12 @@ class CetrioloApplicationTests {
     @Autowired
     private SecurityService secService;
 
+    @Autowired
+    private TarefaRepository tarefaRepo;
+
+    @Autowired
+    private PermissaoRepository perRepo;
+
 	@Test
 	void contextLoads() {
     }
@@ -41,7 +50,9 @@ class CetrioloApplicationTests {
         usuario.setNome("Gabriel");
         usuario.setEmail("gabriel@email.com");
         usuario.setTelefone("984557672");
+        usuario.setSenha("senha123");
         usuario.setMaterias(new HashSet<Materia>());
+        usuario.setPermissao(perRepo.findById(1L).get());
         Materia materia = new Materia();
         materia.setNome("BD");
         materiaRepo.save(materia);
@@ -56,6 +67,7 @@ class CetrioloApplicationTests {
         usuario.setNome("Matias");
         usuario.setEmail("matias@email.com");
         usuario.setTelefone("984557672");
+        usuario.setSenha("senha123");
         usuarioRepo.save(usuario);
         Materia materia = new Materia();
         materia.setNome("Matematica");
@@ -91,8 +103,14 @@ class CetrioloApplicationTests {
     }
 
     @Test
+    void testaConsultaTarefaPorNomeMateria() {
+        List<Tarefa> tarefas = tarefaRepo.findByMateriaNome("Algoritmos");
+        assertFalse(tarefas.isEmpty());
+    }
+
+    @Test
     void testaServicoCriaUsuario() {
-        Usuario usuario = secService.criarUsuario("Dede", "dedemeikg@gmail.com", "129112938982", "Gestão de Projetos");
+        Usuario usuario = secService.criarUsuario("Dede", "dedemeikg@gmail.com", "129112938982", "Gestão de Projetos", "senha123");
         assertNotNull(usuario);
     }
 }

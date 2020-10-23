@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import dream.team.cetriolo.sprintbootapp.controller.View;
@@ -31,6 +33,10 @@ public class Materia {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "materias")
     private Set<Usuario> usuarios;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "materia", fetch = FetchType.LAZY)
+    private Set<Tarefa> tarefas;
+
     public Long getId() {
         return this.id;
     }
@@ -41,6 +47,10 @@ public class Materia {
 
     public Set<Usuario> getUsuarios() {
         return this.usuarios;
+    }
+
+    public Set<Tarefa> getTarefas() {
+        return this.tarefas;
     }
 
     public void setId(Long id) {
@@ -55,4 +65,7 @@ public class Materia {
         this.usuarios = usuarios;
     }
 
+     public void getTarefas(Set<Tarefa> tarefas) {
+        this.tarefas = tarefas;
+    }
 }
