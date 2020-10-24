@@ -11,8 +11,14 @@ import org.springframework.stereotype.Service;
 
 import dream.team.cetriolo.sprintbootapp.entity.Materia;
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
+import dream.team.cetriolo.sprintbootapp.entity.Permissao;
+import dream.team.cetriolo.sprintbootapp.entity.Tarefa;
 import dream.team.cetriolo.sprintbootapp.repository.MateriaRepository;
 import dream.team.cetriolo.sprintbootapp.repository.UsuarioRepository;
+import dream.team.cetriolo.sprintbootapp.repository.PermissaoRepository;
+import dream.team.cetriolo.sprintbootapp.repository.TarefaRepository;
+
+/* Usuario */
 
 @Service("SecurityService")
 public class SecurityServiceImpl implements SecurityService {
@@ -23,10 +29,16 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private MateriaRepository matRepo;
 
+    @Autowired
+    private TarefaRepository tarRepo;
+
+    @Autowired
+    private PermissaoRepository perRepo;
+
     @Transactional
 	public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha) {
         Materia mat = matRepo.findByNome(materia);
-        if(mat != null) {
+        if(mat == null) {
             mat = new Materia();
             mat.setNome(materia);
             matRepo.save(mat);
@@ -98,7 +110,8 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
-    /* Materia */
+/* Materia */
+
     @Override
     public List<Materia> buscarTodasMaterias(){
         return matRepo.findAll();
@@ -125,4 +138,46 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
+/* Tarefa */
+
+    @Transactional
+    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo) {
+        Optional<Usuario> usu = usuRepo.findById(usuarioID);
+        Optional<Materia> mat = matRepo.findById(materiaID);
+        if(usu.isEmpty()) {
+            throw new RuntimeException("Usuário não encontrado!");
+        }
+        if (mat.isEmpty()) {
+            throw new RuntimeException("Matéria não encontrada!");
+        }
+        Tarefa tarefa = new Tarefa();
+        tarefa.setUsuario(usu.get());
+        tarefa.setMateria(mat.get());
+        tarefa.setNomeArquivo(nomeArquivo);
+        tarRepo.save(tarefa);
+        return tarefa;
+    }
+
+    @Override
+    public List<Tarefa> buscarTodasTarefas(){
+        return tarRepo.findAll();
+    }
+
+/* Permissão */
+
+    @Transactional
+    public Permissao criarPermissao(String nome) {
+        Permissao permissao = perRepo.findByNome(nome);
+        if(permissao == null) {
+            permissao = new Permissao();
+            permissao.setNome(nome);
+            perRepo.save(permissao);
+        }
+        return permissao;
+    }
+
+    @Override
+    public List<Permissao> buscarTodasPermissoes(){
+        return perRepo.findAll();
+    }
 }

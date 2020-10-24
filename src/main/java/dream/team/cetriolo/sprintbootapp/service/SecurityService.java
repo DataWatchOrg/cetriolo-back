@@ -4,6 +4,8 @@ import java.util.List;
 
 import dream.team.cetriolo.sprintbootapp.entity.Materia;
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
+import dream.team.cetriolo.sprintbootapp.entity.Permissao;
+import dream.team.cetriolo.sprintbootapp.entity.Tarefa;
 
 public interface SecurityService {
     
@@ -28,4 +30,16 @@ public interface SecurityService {
     public List<Materia> buscarTodasMaterias();
 
     public Materia buscarMateriaPorId(Long id);
+
+    /* Tarefa */
+
+    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo);
+
+    public List<Tarefa> buscarTodasTarefas();
+
+    /* Permissão */
+
+    public Permissao criarPermissao(String nome);
+
+    public List<Permissao> buscarTodasPermissoes();
 }
