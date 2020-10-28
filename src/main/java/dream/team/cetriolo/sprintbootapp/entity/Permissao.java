@@ -3,26 +3,31 @@ package dream.team.cetriolo.sprintbootapp.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import dream.team.cetriolo.sprintbootapp.controller.View;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "per_permissao")
 public class Permissao {
- 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "per_id")
     private Long id;
 
+    @JsonView({View.PermissaoResumo.class, View.UsuarioResumo.class})
     @Column(name = "per_nome")
     private String nome;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "permissao", fetch = FetchType.LAZY)
     private Set<Usuario> usuarios;
 

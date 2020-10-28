@@ -33,7 +33,7 @@ public interface SecurityService {
 
     /* Tarefa */
 
-    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo);
+    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo, Integer nota);
 
     public List<Tarefa> buscarTodasTarefas();
 

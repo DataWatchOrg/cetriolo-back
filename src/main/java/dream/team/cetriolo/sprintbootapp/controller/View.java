@@ -6,7 +6,7 @@ public class View {
 
     public static class MateriaResumo {}
 
-    public static class TarefaResumo {}
+    public static class TarefaResumo{}
 
     public static class PermissaoResumo {}
 }

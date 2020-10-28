@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -29,11 +28,11 @@ public class Usuario {
     @Column(name = "id")
     private Long id;
 
-    @JsonView(View.UsuarioResumo.class)
+    @JsonView({View.UsuarioResumo.class, View.TarefaResumo.class})
     @Column(name = "usu_nome")
     private String nome;
 
-    @JsonView(View.UsuarioResumo.class)
+    @JsonView({View.UsuarioResumo.class, View.TarefaResumo.class})
     @Column(name = "usu_email")
     private String email;
 
@@ -50,11 +49,11 @@ public class Usuario {
         inverseJoinColumns = { @JoinColumn(name = "mat_id") })
     private Set<Materia> materias;
 
+    @JsonView(View.UsuarioResumo.class)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "per_id")
     private Permissao permissao;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private Set<Tarefa> tarefas;
 

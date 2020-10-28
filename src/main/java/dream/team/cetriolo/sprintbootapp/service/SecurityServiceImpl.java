@@ -141,7 +141,7 @@ public class SecurityServiceImpl implements SecurityService {
 /* Tarefa */
 
     @Transactional
-    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo) {
+    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo, Integer nota) {
         Optional<Usuario> usu = usuRepo.findById(usuarioID);
         Optional<Materia> mat = matRepo.findById(materiaID);
         if(usu.isEmpty()) {
@@ -154,6 +154,7 @@ public class SecurityServiceImpl implements SecurityService {
         tarefa.setUsuario(usu.get());
         tarefa.setMateria(mat.get());
         tarefa.setNomeArquivo(nomeArquivo);
+        tarefa.setNota(nota);
         tarRepo.save(tarefa);
         return tarefa;
     }

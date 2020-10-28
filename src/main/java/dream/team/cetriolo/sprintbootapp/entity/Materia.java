@@ -12,7 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import dream.team.cetriolo.sprintbootapp.controller.View;
@@ -26,14 +25,13 @@ public class Materia {
     @Column(name = "mat_id")
     private Long id;
 
-    @JsonView({View.UsuarioResumo.class, View.MateriaResumo.class})
+    @JsonView({View.UsuarioResumo.class, View.MateriaResumo.class, View.TarefaResumo.class})
     @Column(name = "mat_nome")
     private String nome;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "materias")
     private Set<Usuario> usuarios;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "materia", fetch = FetchType.LAZY)
     private Set<Tarefa> tarefas;
 

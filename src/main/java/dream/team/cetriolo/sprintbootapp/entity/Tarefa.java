@@ -5,6 +5,8 @@ import dream.team.cetriolo.sprintbootapp.controller.View;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Tarefa {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tar_id")
     private Long id;
 
