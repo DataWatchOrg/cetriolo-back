@@ -198,7 +198,6 @@ public class SecurityServiceImpl implements SecurityService {
         if (usuario == null) {
             throw new UsernameNotFoundException("Email não encontado.");
         }
-
         return User.builder().username(username).password(usuario.getSenha())
                     .authorities(usuario.getPermissao().getNome()).build();
     }
