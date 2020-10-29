@@ -97,6 +97,12 @@ class CetrioloApplicationTests {
     }
 
     @Test
+    void testaConsultaPorEmail() {
+        Usuario usuario = usuarioRepo.findByEmail("ana@email.com");
+        assertEquals(1L, usuario.getId());
+    }
+
+    @Test
     void testaConsultaUsuarioNomeMateria() {
         List<Usuario> usuarios = usuarioRepo.findByMateriasNome("Algoritmos");
         assertFalse(usuarios.isEmpty());
