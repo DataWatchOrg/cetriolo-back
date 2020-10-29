@@ -32,7 +32,7 @@ public class UsuarioController {
     private SecurityService securityService;
 
     @JsonView(View.UsuarioResumo.class)
-    @GetMapping
+    @GetMapping()
     public List<Usuario> buscarTodosUsuarios() {
         return securityService.buscarTodosUsuarios();
     }

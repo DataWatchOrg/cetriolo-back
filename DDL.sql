@@ -46,7 +46,10 @@ create table tar_tarefa (
 
 insert into per_permissao(per_nome) values ('aluno');
 insert into per_permissao(per_nome) values ('professor');
+insert into per_permissao(per_nome) values ('admin');
 insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Ana', 'ana@email.com', '984556723', 'senha123', 1);
+insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Claudia', 'claudia@email.com', '457889652', 'senha123', 2);
+insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Benina', 'benina@email.com', '457123695', 'senha123', 3);
 insert into mat_materia(mat_nome) values ('Algoritmos');
 insert into uma_usuario_materia(usu_id, mat_id) values (1, 1);
 insert into tar_tarefa(usu_id, mat_id, tar_nome_arquivo) values (1, 1, 'exAlgoritmos1.pdf');
