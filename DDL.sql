@@ -16,8 +16,9 @@ create table usu_usuario (
     usu_nome varchar(50) not null,
     usu_email varchar(50) not null,
     usu_telefone varchar(20),
-    usu_senha varchar(20) not null,
+    usu_senha varchar(100) not null,
     per_id bigint unsigned,
+    unique key uni_usuario_email (usu_email),
     constraint per_usu_fk foreign key (per_id) references per_permissao (per_id)
 );
 
@@ -44,12 +45,12 @@ create table tar_tarefa (
     constraint tar_mat_fk foreign key (mat_id) references mat_materia (mat_id)
 );
 
-insert into per_permissao(per_nome) values ('aluno');
-insert into per_permissao(per_nome) values ('professor');
-insert into per_permissao(per_nome) values ('admin');
-insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Ana', 'ana@email.com', '984556723', 'senha123', 1);
-insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Claudia', 'claudia@email.com', '457889652', 'senha123', 2);
-insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Benina', 'benina@email.com', '457123695', 'senha123', 3);
+insert into per_permissao(per_nome) values ('ROLE_ALUNO');
+insert into per_permissao(per_nome) values ('ROLE_PROFESSOR');
+insert into per_permissao(per_nome) values ('ROLE_ADMIN');
+insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Ana', 'ana@email.com', '984556723', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 1);
+insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Claudia', 'claudia@email.com', '457889652', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 2);
+insert into usu_usuario(usu_nome, usu_email, usu_telefone, usu_senha, per_id) values ('Benina', 'benina@email.com', '457123695', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 3);
 insert into mat_materia(mat_nome) values ('Algoritmos');
 insert into uma_usuario_materia(usu_id, mat_id) values (1, 1);
 insert into tar_tarefa(usu_id, mat_id, tar_nome_arquivo) values (1, 1, 'exAlgoritmos1.pdf');

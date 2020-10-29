@@ -2,12 +2,14 @@ package dream.team.cetriolo.sprintbootapp.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import dream.team.cetriolo.sprintbootapp.entity.Materia;
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
 import dream.team.cetriolo.sprintbootapp.entity.Permissao;
 import dream.team.cetriolo.sprintbootapp.entity.Tarefa;
 
-public interface SecurityService {
+public interface SecurityService extends UserDetailsService {
     
     /* Usuário */
 

@@ -8,6 +8,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dream.team.cetriolo.sprintbootapp.entity.Materia;
@@ -36,10 +40,13 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private PermissaoRepository perRepo;
 
+    @Autowired
+    private PasswordEncoder passEncoder;
+
     @Transactional
-	public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha) {
+    public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha) {
         Materia mat = matRepo.findByNome(materia);
-        if(mat == null) {
+        if (mat == null) {
             mat = new Materia();
             mat.setNome(materia);
             matRepo.save(mat);
@@ -48,16 +55,16 @@ public class SecurityServiceImpl implements SecurityService {
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setTelefone(telefone);
-        usuario.setSenha(senha);
+        usuario.setSenha(passEncoder.encode(senha));
         usuario.setMaterias(new HashSet<Materia>());
         usuario.getMaterias().add(mat);
         usuRepo.save(usuario);
         return usuario;
     }
-    
+
     @Override
     @PreAuthorize("isAuthenticated()")
-    public List<Usuario> buscarTodosUsuarios(){
+    public List<Usuario> buscarTodosUsuarios() {
         return usuRepo.findAll();
     }
 
@@ -65,7 +72,7 @@ public class SecurityServiceImpl implements SecurityService {
     @PreAuthorize("isAuthenticated()")
     public Usuario buscarUsuarioPorId(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
-        if(usuarioOp.isPresent()){
+        if (usuarioOp.isPresent()) {
             return usuarioOp.get();
         } else {
             throw new RuntimeException("Usuário não encontrado!");
@@ -77,7 +84,7 @@ public class SecurityServiceImpl implements SecurityService {
         List<Usuario> usuarios = usuRepo.findByNome(nome);
         Optional<List<Usuario>> usuariosOp = Optional.of(usuarios);
 
-        if(!usuariosOp.isEmpty()) {
+        if (!usuariosOp.isEmpty()) {
             return usuariosOp.get();
         } else {
             throw new RuntimeException("Usuário não encontrado!");
@@ -87,7 +94,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Transactional
     public String deletarUsuario(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
-        if(usuarioOp.isPresent()){
+        if (usuarioOp.isPresent()) {
             usuRepo.delete(usuarioOp.get());
             return "Usuário deletado com sucesso!";
         } else {
@@ -96,9 +103,9 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Transactional
-	public Usuario alterarUsuario(Long id, String nome, String email, String telefone) {
+    public Usuario alterarUsuario(Long id, String nome, String email, String telefone) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
-        if(usuarioOp.isPresent()){
+        if (usuarioOp.isPresent()) {
             usuarioOp.get().setNome(nome);
             usuarioOp.get().setEmail(email);
             usuarioOp.get().setTelefone(telefone);
@@ -113,17 +120,17 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
-/* Materia */
+    /* Materia */
 
     @Override
-    public List<Materia> buscarTodasMaterias(){
+    public List<Materia> buscarTodasMaterias() {
         return matRepo.findAll();
     }
 
     @Transactional
-	public Materia criarMateria(String nome) {
+    public Materia criarMateria(String nome) {
         Materia materia = matRepo.findByNome(nome);
-        if(materia == null) {
+        if (materia == null) {
             materia = new Materia();
             materia.setNome(nome);
             matRepo.save(materia);
@@ -134,20 +141,20 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public Materia buscarMateriaPorId(Long id) {
         Optional<Materia> materiaOp = matRepo.findById(id);
-        if(materiaOp.isPresent()){
+        if (materiaOp.isPresent()) {
             return materiaOp.get();
         } else {
             throw new RuntimeException("Matéria não encontrada!");
         }
     }
 
-/* Tarefa */
+    /* Tarefa */
 
     @Transactional
     public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo, Integer nota) {
         Optional<Usuario> usu = usuRepo.findById(usuarioID);
         Optional<Materia> mat = matRepo.findById(materiaID);
-        if(usu.isEmpty()) {
+        if (usu.isEmpty()) {
             throw new RuntimeException("Usuário não encontrado!");
         }
         if (mat.isEmpty()) {
@@ -163,16 +170,16 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public List<Tarefa> buscarTodasTarefas(){
+    public List<Tarefa> buscarTodasTarefas() {
         return tarRepo.findAll();
     }
 
-/* Permissão */
+    /* Permissão */
 
     @Transactional
     public Permissao criarPermissao(String nome) {
         Permissao permissao = perRepo.findByNome(nome);
-        if(permissao == null) {
+        if (permissao == null) {
             permissao = new Permissao();
             permissao.setNome(nome);
             perRepo.save(permissao);
@@ -181,7 +188,18 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public List<Permissao> buscarTodasPermissoes(){
+    public List<Permissao> buscarTodasPermissoes() {
         return perRepo.findAll();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuario = usuRepo.findByEmail(username);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Email não encontado.");
+        }
+
+        return User.builder().username(username).password(usuario.getSenha())
+                    .authorities(usuario.getPermissao().getNome()).build();
     }
 }
