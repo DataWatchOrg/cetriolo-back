@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         // Desabilita criação de sessões
         http.csrf().disable().httpBasic().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
