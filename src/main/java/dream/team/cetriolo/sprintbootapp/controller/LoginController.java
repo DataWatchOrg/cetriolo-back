@@ -20,15 +20,21 @@ import dream.team.cetriolo.sprintbootapp.security.Login;
 @CrossOrigin
 public class LoginController {
 
-    @Autowired
-    private AuthenticationManager authManager;
+  @Autowired
+  private AuthenticationManager authManager;
 
-    @PostMapping()
-    public Login autenticar(@RequestBody Login login) throws JsonProcessingException {
-        Authentication auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
-        auth = authManager.authenticate(auth);
-        login.setPassword(null);
-        login.setToken(JwtUtils.generateToken(auth));
-        return login;
+  @PostMapping()
+  public Login autenticar(@RequestBody Login login) throws JsonProcessingException {
+    Authentication auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
+    try {
+      auth = authManager.authenticate(auth);
     }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+    login.setPassword(null);
+    login.setToken(JwtUtils.generateToken(auth));
+    return login;
+  }
+  
 }
