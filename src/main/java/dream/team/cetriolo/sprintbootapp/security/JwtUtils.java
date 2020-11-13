@@ -36,8 +36,10 @@ public class JwtUtils {
 
   public static Authentication parseToken(String token) throws JsonParseException, JsonMappingException, IOException {
     ObjectMapper mapper = new ObjectMapper();
+    // captura informacoes do usuario do token
     String credentialsJson = Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody().get("userDetails",
         String.class);
+    //constroi um objeto Login com base no json
     Login usuario = mapper.readValue(credentialsJson, Login.class);
     UserDetails userDetails = User.builder().username(usuario.getUsername()).password("secret")
         .authorities(usuario.getAutorizacao()).build();

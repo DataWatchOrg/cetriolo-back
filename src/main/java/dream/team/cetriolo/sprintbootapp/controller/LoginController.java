@@ -26,12 +26,14 @@ public class LoginController {
   @PostMapping()
   public Login autenticar(@RequestBody Login login) throws JsonProcessingException {
     Authentication auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
+    // não precisa de try/catch
     try {
       auth = authManager.authenticate(auth);
     }
     catch(Exception e) {
       e.printStackTrace();
     }
+    // esconde a senha
     login.setPassword(null);
     login.setToken(JwtUtils.generateToken(auth));
     return login;
