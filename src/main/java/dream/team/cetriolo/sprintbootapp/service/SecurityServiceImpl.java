@@ -69,7 +69,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_PROFESSOR')")
     public Usuario buscarUsuarioPorId(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
         if (usuarioOp.isPresent()) {
@@ -80,6 +80,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Usuario> buscarUsuarioPorNome(String nome) {
         List<Usuario> usuarios = usuRepo.findByNome(nome);
         Optional<List<Usuario>> usuariosOp = Optional.of(usuarios);
