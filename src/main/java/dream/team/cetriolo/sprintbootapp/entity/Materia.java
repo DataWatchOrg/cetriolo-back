@@ -23,6 +23,7 @@ public class Materia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mat_id")
+    @JsonView(View.MateriaResumo.class)
     private Long id;
 
     @JsonView({View.UsuarioResumo.class, View.MateriaResumo.class, View.TarefaResumo.class})

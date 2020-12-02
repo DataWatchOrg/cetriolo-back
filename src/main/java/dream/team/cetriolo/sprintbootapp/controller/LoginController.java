@@ -36,6 +36,7 @@ public class LoginController {
     // esconde a senha
     login.setPassword(null);
     login.setAutorizacao(auth.getAuthorities().iterator().next().getAuthority());
+    login.setUsername(auth.getName());
     login.setToken(JwtUtils.generateToken(auth));
     return login;
   }

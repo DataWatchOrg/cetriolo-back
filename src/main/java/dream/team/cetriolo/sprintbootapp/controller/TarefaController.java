@@ -38,7 +38,7 @@ public class TarefaController {
     public ResponseEntity<Tarefa> cadastrarNovaTarefa(@RequestBody Tarefa tarefa, 
         UriComponentsBuilder uriComponentsBuilder) {
         
-        tarefa  = securityService.criarTarefa(tarefa.getUsuario().getId(), tarefa.getMateria().getId(), tarefa.getNomeArquivo(), tarefa.getNota());
+        tarefa  = securityService.criarTarefa(tarefa.getUsuario().getEmail(), tarefa.getMateria().getId(), tarefa.getNomeArquivo(), tarefa.getNota());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(
             uriComponentsBuilder.path(

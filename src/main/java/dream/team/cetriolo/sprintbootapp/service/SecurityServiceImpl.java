@@ -121,6 +121,12 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
+    @Override
+    public Usuario buscarUsuarioPorEmail(String email) {
+        Usuario usuario = usuRepo.findByEmail(email);
+        return usuario;
+    }
+
     /* Materia */
 
     @Override
@@ -152,17 +158,17 @@ public class SecurityServiceImpl implements SecurityService {
     /* Tarefa */
 
     @Transactional
-    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo, Integer nota) {
-        Optional<Usuario> usu = usuRepo.findById(usuarioID);
+    public Tarefa criarTarefa(String usuarioEmail, Long materiaID, String nomeArquivo, Integer nota) {
+        Usuario usu = usuRepo.findByEmail(usuarioEmail);
         Optional<Materia> mat = matRepo.findById(materiaID);
-        if (usu.isEmpty()) {
+        if (usu == null) {
             throw new RuntimeException("Usuário não encontrado!");
         }
         if (mat.isEmpty()) {
             throw new RuntimeException("Matéria não encontrada!");
         }
         Tarefa tarefa = new Tarefa();
-        tarefa.setUsuario(usu.get());
+        tarefa.setUsuario(usu);
         tarefa.setMateria(mat.get());
         tarefa.setNomeArquivo(nomeArquivo);
         tarefa.setNota(nota);

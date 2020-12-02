@@ -21,6 +21,8 @@ public interface SecurityService extends UserDetailsService {
 
     public List<Usuario> buscarUsuarioPorNome(String nome);
 
+    public Usuario buscarUsuarioPorEmail(String email);
+
     public String deletarUsuario(Long id);
 
     public Usuario alterarUsuario(Long id, String nome, String email, String telephone);
@@ -35,7 +37,7 @@ public interface SecurityService extends UserDetailsService {
 
     /* Tarefa */
 
-    public Tarefa criarTarefa(Long usuarioID, Long materiaID, String nomeArquivo, Integer nota);
+    public Tarefa criarTarefa(String usuarioEmail, Long materiaID, String nomeArquivo, Integer nota);
 
     public List<Tarefa> buscarTodasTarefas();
 
