@@ -158,6 +158,13 @@ public class SecurityServiceImpl implements SecurityService {
     /* Tarefa */
 
     @Transactional
+    public Tarefa avaliarTarefa(Long tarefaID, Integer nota) {
+        Optional<Tarefa> tarefa = tarRepo.findById(tarefaID);
+        tarefa.get().setNota(nota);
+        return tarefa.get();
+    }
+
+    @Transactional
     public Tarefa criarTarefa(String usuarioEmail, Long materiaID, String nomeArquivo, Integer nota) {
         Usuario usu = usuRepo.findByEmail(usuarioEmail);
         Optional<Materia> mat = matRepo.findById(materiaID);
