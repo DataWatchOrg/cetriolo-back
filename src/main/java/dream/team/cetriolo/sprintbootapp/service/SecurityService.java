@@ -41,8 +41,6 @@ public interface SecurityService extends UserDetailsService {
 
     public List<Tarefa> buscarTodasTarefas();
 
-    public Tarefa avaliarTarefa(Long tarefaID, Integer nota);
-
     /* Permissão */
 
     public Permissao criarPermissao(String nome);

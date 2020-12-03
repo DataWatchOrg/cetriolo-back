@@ -92,6 +92,7 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public String deletarUsuario(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
@@ -156,13 +157,6 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     /* Tarefa */
-
-    @Transactional
-    public Tarefa avaliarTarefa(Long tarefaID, Integer nota) {
-        Optional<Tarefa> tarefa = tarRepo.findById(tarefaID);
-        tarefa.get().setNota(nota);
-        return tarefa.get();
-    }
 
     @Transactional
     public Tarefa criarTarefa(String usuarioEmail, Long materiaID, String nomeArquivo, Integer nota) {
