@@ -37,6 +37,7 @@ public class Usuario {
     @Column(name = "usu_email")
     private String email;
 
+    @JsonView({View.UsuarioResumo.class})
     @Column(name = "usu_telefone")
     private String telefone;
 

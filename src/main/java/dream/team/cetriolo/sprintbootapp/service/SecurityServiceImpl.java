@@ -104,6 +104,7 @@ public class SecurityServiceImpl implements SecurityService {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
     public Usuario alterarUsuario(Long id, String nome, String email, String telefone) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
