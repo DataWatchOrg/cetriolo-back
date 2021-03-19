@@ -17,7 +17,7 @@ create table usu_usuario (
     usu_email varchar(50) not null,
     usu_telefone varchar(20),
     usu_senha varchar(100) not null,
-    usu_orient_sexual varchar(20) not null,
+    usu_race varchar(50),
     per_id bigint unsigned,
     unique key uni_usuario_email (usu_email),
     constraint per_usu_fk foreign key (per_id) references per_permissao (per_id)
