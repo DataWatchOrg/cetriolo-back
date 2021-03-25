@@ -1,5 +1,5 @@
 ports:
   - port: 8080
 tasks:
-  - init: mysql < DDL.sql
+  - init: mysql < DDL.sql && mysql < mock_usu_usuario.sql
 image: gitpod/workspace-mysql
