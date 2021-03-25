@@ -1,6 +1,5 @@
-insert into usu_usuario (id, usu_nome, usu_email, usu_telefone, usu_senha, usu_race, per_id) values (1, 'Michaela', 'mhitscher0@ucoz.ru', '272-359-7438', 'PLWuZHofILP', 'Dominican (Dominican Republic)', 1);
-insert into usu_usuario (id, usu_nome, usu_email, usu_telefone, usu_senha, usu_race, per_id) values (2, 'Conrad', 'cmuckleston1@skyrock.com', '142-946-7598', 'bijJexA', 'Yakama', 2);
-insert into usu_usuario (id, usu_nome, usu_email, usu_telefone, usu_senha, usu_race, per_id) values (3, 'Jonell', 'jsnoddon2@aboutads.info', '469-821-9204', 'y4YfNUW1', 'Paiute', 1);
+use cetriolo;
+
 insert into usu_usuario (id, usu_nome, usu_email, usu_telefone, usu_senha, usu_race, per_id) values (4, 'Reginald', 'rbravington3@go.com', '360-357-6912', 'VQn2x6rSHSKq', 'Black or African American', 2);
 insert into usu_usuario (id, usu_nome, usu_email, usu_telefone, usu_senha, usu_race, per_id) values (5, 'Aylmer', 'anorthall4@amazon.co.uk', '794-678-9883', 'lucEvCZNA', 'Comanche', 1);
 insert into usu_usuario (id, usu_nome, usu_email, usu_telefone, usu_senha, usu_race, per_id) values (6, 'Cati', 'ccaddick5@cyberchimps.com', '723-485-8549', '2VdiXmxLvJz', 'Cherokee', 2);
