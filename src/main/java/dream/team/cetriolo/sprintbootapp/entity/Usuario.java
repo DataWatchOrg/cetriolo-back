@@ -44,6 +44,10 @@ public class Usuario {
     @Column(name = "usu_senha")
     private String senha;
 
+    @JsonView({View.UsuarioResumo.class})
+    @Column(name = "usu_race")
+    private String race;
+
     @JsonView(View.UsuarioResumo.class)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "uma_usuario_materia",
