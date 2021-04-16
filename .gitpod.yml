@@ -2,6 +2,5 @@ ports:
   - port: 8080
 tasks:
   - init: mysql < DDL.sql && mysql < mock_usu_usuario.sql
-  - command: sudo docker-up
-  - command: sleep 15 && docker run rabbitmq
+  - command: sudo docker-up && docker run rabbitmq
 image: gitpod/workspace-mysql
