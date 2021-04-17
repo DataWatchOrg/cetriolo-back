@@ -54,7 +54,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> cadastrarNovoUsuario(@RequestBody Usuario usuario, 
         UriComponentsBuilder uriComponentsBuilder) {
         
-        usuario  = securityService.criarUsuario(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), "", usuario.getSenha());
+        usuario  = securityService.criarUsuario(usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), "", usuario.getSenha(), "ROLE_ALUNO", usuario.getRace());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(
             uriComponentsBuilder.path(
@@ -73,7 +73,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario usuario, 
         UriComponentsBuilder uriComponentsBuilder) {
 
-        usuario  = securityService.alterarUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getTelefone());
+        usuario  = securityService.alterarUsuario(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getTelefone(), usuario.getRace());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(
             uriComponentsBuilder.path(

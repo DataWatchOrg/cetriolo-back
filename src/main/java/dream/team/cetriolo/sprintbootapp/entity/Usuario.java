@@ -83,6 +83,10 @@ public class Usuario {
         return this.senha;
     }
 
+    public String getRace() {
+        return this.race;
+    }
+
     public Set<Materia> getMaterias() {
         return this.materias;
     }
@@ -113,6 +117,10 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
     }
 
     public void setMaterias(Set<Materia> materias) {

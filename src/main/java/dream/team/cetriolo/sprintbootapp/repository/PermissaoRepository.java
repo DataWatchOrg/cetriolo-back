@@ -7,5 +7,4 @@ import dream.team.cetriolo.sprintbootapp.entity.Permissao;
 public interface PermissaoRepository extends JpaRepository<Permissao, Long> {
     
     public Permissao findByNome(String permissao);
-
 }

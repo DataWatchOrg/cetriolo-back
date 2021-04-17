@@ -44,20 +44,25 @@ public class SecurityServiceImpl implements SecurityService {
     private PasswordEncoder passEncoder;
 
     @Transactional
-    public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha) {
+    public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha, String permissao, String race) {
         Materia mat = matRepo.findByNome(materia);
         if (mat == null) {
             mat = new Materia();
             mat.setNome(materia);
             matRepo.save(mat);
         }
+
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setTelefone(telefone);
         usuario.setSenha(passEncoder.encode(senha));
+        usuario.setRace(race);
         usuario.setMaterias(new HashSet<Materia>());
         usuario.getMaterias().add(mat);
+        usuario.setPermissao(perRepo.findByNome(permissao));
+
+
         usuRepo.save(usuario);
         return usuario;
     }
@@ -106,18 +111,20 @@ public class SecurityServiceImpl implements SecurityService {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Transactional
-    public Usuario alterarUsuario(Long id, String nome, String email, String telefone) {
+    public Usuario alterarUsuario(Long id, String nome, String email, String telefone, String race) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
         if (usuarioOp.isPresent()) {
             usuarioOp.get().setNome(nome);
             usuarioOp.get().setEmail(email);
             usuarioOp.get().setTelefone(telefone);
+            usuarioOp.get().setRace(race);
             return usuarioOp.get();
         } else {
             Usuario usuario = new Usuario();
             usuario.setNome(nome);
             usuario.setEmail(email);
             usuario.setTelefone(telefone);
+            usuario.setRace(race);
             usuRepo.save(usuario);
             return usuario;
         }

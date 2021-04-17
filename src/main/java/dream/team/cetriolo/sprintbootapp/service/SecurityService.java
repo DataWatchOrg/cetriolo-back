@@ -13,7 +13,7 @@ public interface SecurityService extends UserDetailsService {
     
     /* Usuário */
 
-    public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha);
+    public Usuario criarUsuario(String nome, String email, String telefone, String materia, String senha, String permissao, String race);
 
     public List<Usuario> buscarTodosUsuarios();
 
@@ -25,7 +25,7 @@ public interface SecurityService extends UserDetailsService {
 
     public String deletarUsuario(Long id);
 
-    public Usuario alterarUsuario(Long id, String nome, String email, String telephone);
+    public Usuario alterarUsuario(Long id, String nome, String email, String telephone, String race);
 
     /* Matéria */
 
