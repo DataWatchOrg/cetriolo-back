@@ -44,9 +44,9 @@ public class DwFilter extends GenericFilterBean {
                 });
 
         // Pega outras informações
-        sb.append("\"method\": " + req.getMethod()+",");
+        sb.append("\"method\": " + req.getMethod().toString() +",");
         sb.append("\"query string\": " + req.getQueryString()+",");
-        sb.append("\"date\": " + "" + System.currentTimeMillis()+"}");
+        sb.append("\"date\": " + "" + String.format("%f",  System.currentTimeMillis()) +"}");
 //        sb.append("\"user\": " + req.getUserPrincipal().getName()+"}");
         StringBuilder body = new StringBuilder();
         // Pega o body
