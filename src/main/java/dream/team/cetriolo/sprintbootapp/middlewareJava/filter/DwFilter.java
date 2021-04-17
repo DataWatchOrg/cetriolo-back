@@ -30,7 +30,7 @@ public class DwFilter extends GenericFilterBean {
 //        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // Pega os Headers
-        sb.append("{ header: ");
+        sb.append("{ \"header\": ");
         sb.append("{");
         req.getHeaderNames().asIterator().
                 forEachRemaining(key -> {
@@ -44,15 +44,15 @@ public class DwFilter extends GenericFilterBean {
                 });
 
         // Pega outras informações
-        sb.append("method: " + req.getMethod()+",");
-        sb.append("query string: " + req.getQueryString()+",");
-        sb.append("date: " + System.currentTimeMillis()+"}");
-//        sb.append("user: " + req.getUserPrincipal().getName()+"}");
+        sb.append("\"method\": " + req.getMethod()+",");
+        sb.append("\"query string\": " + req.getQueryString()+",");
+        sb.append("\"date\": " + "" + System.currentTimeMillis()+"}");
+//        sb.append("\"user\": " + req.getUserPrincipal().getName()+"}");
         StringBuilder body = new StringBuilder();
         // Pega o body
         cachedReq.getReader().lines().forEach(linha -> body.append(linha));
         if(!body.toString().isEmpty()){
-            sb.append(", body: ");
+            sb.append(", \"body\": ");
             sb.append(body);
         }
 
