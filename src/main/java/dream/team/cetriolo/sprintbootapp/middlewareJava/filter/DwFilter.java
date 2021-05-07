@@ -1,6 +1,6 @@
 package dream.team.cetriolo.sprintbootapp.middlewareJava.filter;
 
-import dream.team.cetriolo.sprintbootapp.middlewareJava.service.*;
+import dream.team.cetriolo.sprintbootapp.middlewareJava.serviceDw.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.annotation.*;
 import org.springframework.stereotype.*;
@@ -24,13 +24,16 @@ public class DwFilter extends GenericFilterBean {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
 
+        HttpServletResponse res = (HttpServletResponse) servletResponse;
+        HttpServletResponseCopier responseCopier = new HttpServletResponseCopier(res);
+
         StringBuilder sb = new StringBuilder();
 
         // TODO: usar essa parte na Sprint 3, ao criptografar tudo...
 //        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // Pega os Headers
-        sb.append("{ \"header\": ");
+        sb.append("{ header: ");
         sb.append("{");
         req.getHeaderNames().asIterator().
                 forEachRemaining(key -> {
@@ -44,15 +47,15 @@ public class DwFilter extends GenericFilterBean {
                 });
 
         // Pega outras informações
-        sb.append("\"method\": " + "\"" + req.getMethod() + "\",");
-        sb.append("\"query string\": " + "\"" + req.getQueryString() +"\",");
-        sb.append("\"date\": " + "\"" + System.currentTimeMillis() + "\"}");
-//        sb.append("\"user\": " + req.getUserPrincipal().getName()+"}");
+        sb.append("method: " + req.getMethod()+",");
+        sb.append("query string: " + req.getQueryString()+",");
+        sb.append("date: " + System.currentTimeMillis()+"}");
+//        sb.append("user: " + req.getUserPrincipal().getName()+"}");
         StringBuilder body = new StringBuilder();
         // Pega o body
         cachedReq.getReader().lines().forEach(linha -> body.append(linha));
         if(!body.toString().isEmpty()){
-            sb.append(", \"body\": ");
+            sb.append(", body: ");
             sb.append(body);
         }
 
@@ -61,7 +64,9 @@ public class DwFilter extends GenericFilterBean {
 
         new Thread(() -> messageSender.send(sb.toString())).start();
 
-        filterChain.doFilter(cachedReq, servletResponse);
+        filterChain.doFilter(cachedReq, responseCopier);
+
+        new Thread(() -> messageSender.send(new String(responseCopier.getCopy()))).start();
     }
 
 }
