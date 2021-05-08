@@ -10,6 +10,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 
+import org.json.JSONObject;
+
 @Component
 @Order(1)
 public class DwFilter extends GenericFilterBean {
@@ -27,42 +29,32 @@ public class DwFilter extends GenericFilterBean {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         HttpServletResponseCopier responseCopier = new HttpServletResponseCopier(res);
 
-        StringBuilder sb = new StringBuilder();
+        JSONObject json = new JSONObject();
 
         // TODO: usar essa parte na Sprint 3, ao criptografar tudo...
-//        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // Pega os Headers
-        sb.append("{ header: ");
-        sb.append("{");
-        req.getHeaderNames().asIterator().
-                forEachRemaining(key -> {
-                    String texto = "\"";
-                    texto += key;
-                    texto += "\":";
-                    texto += "\"";
-                    texto += req.getHeader(key);
-                    texto += "\",";
-                    sb.append(texto);
-                });
+        JSONObject headerJson = new JSONObject();
+        req.getHeaderNames().asIterator().forEachRemaining(key -> {
+            headerJson.put(key, req.getHeader(key));
+        });
 
         // Pega outras informações
-        sb.append("method: " + req.getMethod()+",");
-        sb.append("query string: " + req.getQueryString()+",");
-        sb.append("date: " + System.currentTimeMillis()+"}");
-//        sb.append("user: " + req.getUserPrincipal().getName()+"}");
-        StringBuilder body = new StringBuilder();
+        headerJson.put("method", req.getMethod());
+        headerJson.put("query-string", req.getQueryString());
+        headerJson.put("date", System.currentTimeMillis());
+
         // Pega o body
+        StringBuilder body = new StringBuilder();
         cachedReq.getReader().lines().forEach(linha -> body.append(linha));
-        if(!body.toString().isEmpty()){
-            sb.append(", body: ");
-            sb.append(body);
-        }
 
-        sb.append("}");
-        System.out.println(sb.toString());
+        JSONObject bodyJson = new JSONObject(body.toString());
 
-        new Thread(() -> messageSender.send(sb.toString())).start();
+        json.put("header", headerJson);
+        json.put("body", bodyJson);
+        System.out.println(json.toString());
+
+        new Thread(() -> messageSender.send(json.toString())).start();
 
         filterChain.doFilter(cachedReq, responseCopier);
 
