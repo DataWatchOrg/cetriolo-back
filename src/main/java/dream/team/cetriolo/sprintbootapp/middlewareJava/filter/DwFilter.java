@@ -1,8 +1,12 @@
 package dream.team.cetriolo.sprintbootapp.middlewareJava.filter;
 
+import dream.team.cetriolo.sprintbootapp.entity.Usuario;
 import dream.team.cetriolo.sprintbootapp.middlewareJava.service.*;
+import dream.team.cetriolo.sprintbootapp.service.SecurityService;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.*;
 import org.springframework.web.filter.*;
 
@@ -16,7 +20,10 @@ public class DwFilter extends GenericFilterBean {
 
     @Autowired
     private MessageSender messageSender;
-
+    
+    @Autowired
+    private SecurityService securityService;
+    
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
@@ -27,8 +34,8 @@ public class DwFilter extends GenericFilterBean {
         StringBuilder sb = new StringBuilder();
 
         // TODO: usar essa parte na Sprint 3, ao criptografar tudo...
-//        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        Usuario usuario = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
+  
         // Pega os Headers
         sb.append("{ \"header\": ");
         sb.append("{");
@@ -46,8 +53,9 @@ public class DwFilter extends GenericFilterBean {
         // Pega outras informações
         sb.append("\"method\": " + "\"" + req.getMethod() + "\",");
         sb.append("\"query string\": " + "\"" + req.getQueryString() +"\",");
-        sb.append("\"date\": " + "\"" + System.currentTimeMillis() + "\"}");
-//        sb.append("\"user\": " + req.getUserPrincipal().getName()+"}");
+        sb.append("\"date\": " + "\"" + System.currentTimeMillis() + "\"},");
+        sb.append("\"system_data\":{\"");
+        sb.append("id_usuario_logado\": " + usuario.getId()+"}");
         StringBuilder body = new StringBuilder();
         // Pega o body
         cachedReq.getReader().lines().forEach(linha -> body.append(linha));
