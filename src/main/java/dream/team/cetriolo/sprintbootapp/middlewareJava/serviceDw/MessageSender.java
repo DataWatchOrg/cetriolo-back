@@ -3,8 +3,6 @@ package dream.team.cetriolo.sprintbootapp.middlewareJava.serviceDw;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 @Component
