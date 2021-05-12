@@ -1,8 +1,12 @@
 package dream.team.cetriolo.sprintbootapp.middlewareJava.filter;
 
+import dream.team.cetriolo.sprintbootapp.entity.Usuario;
 import dream.team.cetriolo.sprintbootapp.middlewareJava.serviceDw.*;
+import dream.team.cetriolo.sprintbootapp.service.SecurityService;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.*;
 import org.springframework.web.filter.*;
 
@@ -16,21 +20,30 @@ public class DwFilter extends GenericFilterBean {
 
     @Autowired
     private MessageSender messageSender;
-
+    
+    @Autowired
+    private SecurityService securityService;
+    
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
+    	
+    	
+    	
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         CachedBodyHttpServletRequest cachedReq = new CachedBodyHttpServletRequest(req);
 
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         HttpServletResponseCopier responseCopier = new HttpServletResponseCopier(res);
+        
+        if (cachedReq.getServletPath().equals("/login")) {
+        	filterChain.doFilter(cachedReq, responseCopier);
+            return;
+        }
 
         StringBuilder sb = new StringBuilder();
 
-        // TODO: usar essa parte na Sprint 3, ao criptografar tudo...
-//        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // Pega os Headers
         sb.append("{ header: ");
@@ -50,8 +63,15 @@ public class DwFilter extends GenericFilterBean {
         sb.append("method: " + req.getMethod()+",");
         sb.append("query string: " + req.getQueryString()+",");
         sb.append("date: " + System.currentTimeMillis()+"}");
-//        sb.append("user: " + req.getUserPrincipal().getName()+"}");
+
         StringBuilder body = new StringBuilder();
+        
+
+        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+     	Usuario usu = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
+ 		sb.append(",\"system_data\":{\"");
+ 		sb.append("id_usuario_logado\": " + usu.getId()+"}");
+         
         // Pega o body
         cachedReq.getReader().lines().forEach(linha -> body.append(linha));
         if(!body.toString().isEmpty()){
