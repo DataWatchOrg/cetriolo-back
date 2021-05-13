@@ -56,9 +56,10 @@ public class DwFilter extends GenericFilterBean {
         headerJson.put("method", req.getMethod());
         headerJson.put("query-string", req.getQueryString());
         headerJson.put("date", System.currentTimeMillis());
+        headerJson.put("path", cachedReq.getServletPath());
 
         Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-     	  Usuario usu = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
+     	Usuario usu = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
         
         JSONObject systemData = new JSONObject();
         systemData.put("id_usuario_logado", usu.getId());
@@ -74,11 +75,11 @@ public class DwFilter extends GenericFilterBean {
         json.put("body", bodyJson);
         System.out.println(json.toString());
 
-        new Thread(() -> messageSender.send(json.toString())).start();
-
         filterChain.doFilter(cachedReq, responseCopier);
 
-        new Thread(() -> messageSender.send(new String(responseCopier.getCopy()))).start();
+        json.put("response", new JSONObject(new String(responseCopier.getCopy())));
+
+        new Thread(() -> messageSender.send(json.toString())).start();
     }
 
 }
