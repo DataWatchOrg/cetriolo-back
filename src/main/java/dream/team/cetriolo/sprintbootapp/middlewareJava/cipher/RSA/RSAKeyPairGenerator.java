@@ -1,9 +1,9 @@
-package dream.team.cetriolo.sprintbootapp.middlewareJava.RSA;
+package dream.team.cetriolo.sprintbootapp.middlewareJava.cipher.RSA;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.*;
+import java.security.*; 
 import java.util.Base64;
 
 public class RSAKeyPairGenerator {
@@ -13,7 +13,7 @@ public class RSAKeyPairGenerator {
 
     public RSAKeyPairGenerator() throws NoSuchAlgorithmException {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-        keyGen.initialize(2048);
+        keyGen.initialize(1024);
         KeyPair pair = keyGen.generateKeyPair();
         this.privateKey = pair.getPrivate();
         this.publicKey = pair.getPublic();
@@ -39,9 +39,9 @@ public class RSAKeyPairGenerator {
     
     public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
         RSAKeyPairGenerator keyPairGenerator = new RSAKeyPairGenerator();
-        keyPairGenerator.writeToFile("D:\\Fatec\\Sakaue\\", keyPairGenerator.getPublicKey().getEncoded());
-        keyPairGenerator.writeToFile("D:\\Fatec\\Sakaue\\", keyPairGenerator.getPrivateKey().getEncoded());
-        System.out.println(Base64.getEncoder().encodeToString(keyPairGenerator.getPublicKey().getEncoded()));
-        System.out.println(Base64.getEncoder().encodeToString(keyPairGenerator.getPrivateKey().getEncoded()));
+        keyPairGenerator.writeToFile("D:\\publicKey", keyPairGenerator.getPublicKey().getEncoded());
+        keyPairGenerator.writeToFile("D:\\privateKey", keyPairGenerator.getPrivateKey().getEncoded());
+        System.out.println("Public Key\n" + Base64.getEncoder().encodeToString(keyPairGenerator.getPublicKey().getEncoded()));
+        System.out.println("Private Key\ny" + Base64.getEncoder().encodeToString(keyPairGenerator.getPrivateKey().getEncoded()));
     }
 }

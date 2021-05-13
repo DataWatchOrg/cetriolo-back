@@ -1,6 +1,9 @@
 package dream.team.cetriolo.sprintbootapp.middlewareJava.filter;
 
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
+import dream.team.cetriolo.sprintbootapp.middlewareJava.cipher.AES.AESKeyGenerator;
+import dream.team.cetriolo.sprintbootapp.middlewareJava.cipher.AES.AESUtils;
+import dream.team.cetriolo.sprintbootapp.middlewareJava.cipher.RSA.RSAUtils;
 import dream.team.cetriolo.sprintbootapp.middlewareJava.serviceDw.*;
 import dream.team.cetriolo.sprintbootapp.service.SecurityService;
 
@@ -10,9 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.*;
 import org.springframework.web.filter.*;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
+import java.util.Base64;
 
 import org.json.JSONObject;
 
@@ -26,6 +32,8 @@ public class DwFilter extends GenericFilterBean {
     @Autowired
     private SecurityService securityService;
     
+    private static String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCRQoCWbSU3pEhYSKHpQmpUyv73aUZpVdHzxhLVsbCc2JQh/g4aiWOO4mvTusOvrBeCrHECzJ2nKe+AiKd04UowbvcO4qNTvS3xzm6Xr1YnDhIDXCbh6+yMdZ60j6XU6wLSM/+AKzbivkn0CB9BLu0g/1JZB/ITnP00fHL/oiSD/QIDAQAB";
+
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
@@ -58,7 +66,7 @@ public class DwFilter extends GenericFilterBean {
         headerJson.put("date", System.currentTimeMillis());
 
         Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-     	  Usuario usu = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
+     	Usuario usu = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
         
         JSONObject systemData = new JSONObject();
         systemData.put("id_usuario_logado", usu.getId());
@@ -74,7 +82,19 @@ public class DwFilter extends GenericFilterBean {
         json.put("body", bodyJson);
         System.out.println(json.toString());
 
-        new Thread(() -> messageSender.send(json.toString())).start();
+        try {
+            SecretKey key = AESKeyGenerator.generateKey(128);
+            IvParameterSpec ivParameterSpec = AESUtils.generateIv();
+            String algorithm = "AES/CBC/PKCS5Padding";
+            String jsonCipheredAES = AESUtils.encrypt(algorithm, json.toString(), key, ivParameterSpec);
+            System.out.println(jsonCipheredAES);
+            String jsonCipheredRSA = Base64.getEncoder().encodeToString(RSAUtils.encrypt(jsonCipheredAES, publicKey));
+            System.out.println(jsonCipheredRSA);
+            new Thread(() -> messageSender.send(jsonCipheredRSA)).start();
+        } catch (Exception e) {
+            System.out.println("Deu ruim\n" + e.getMessage());
+        }
+
 
         filterChain.doFilter(cachedReq, responseCopier);
 
