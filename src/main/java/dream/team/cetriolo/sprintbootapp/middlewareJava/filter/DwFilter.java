@@ -84,15 +84,18 @@ public class DwFilter extends GenericFilterBean {
 
         try {
             SecretKey key = AESKeyGenerator.generateKey(128);
+            byte[] aesKey = key.getEncoded();
             IvParameterSpec ivParameterSpec = AESUtils.generateIv();
             String algorithm = "AES/CBC/PKCS5Padding";
             String jsonCipheredAES = AESUtils.encrypt(algorithm, json.toString(), key, ivParameterSpec);
             System.out.println(jsonCipheredAES);
-            String jsonCipheredRSA = Base64.getEncoder().encodeToString(RSAUtils.encrypt(jsonCipheredAES, publicKey));
-            System.out.println(jsonCipheredRSA);
-            new Thread(() -> messageSender.send(jsonCipheredRSA)).start();
+            String cipheredAESKey = Base64.getEncoder().encodeToString(RSAUtils.encrypt(Base64.getEncoder().encodeToString(aesKey), publicKey));
+            JSONObject jsonCipheredMessage = new JSONObject();
+            jsonCipheredMessage.put("AES Key", cipheredAESKey);
+            jsonCipheredMessage.put("Message", jsonCipheredMessage);
+            new Thread(() -> messageSender.send(jsonCipheredMessage.toString())).start();
         } catch (Exception e) {
-            System.out.println("Deu ruim\n" + e.getMessage());
+            System.out.println(e.getMessage());
         }
 
 
