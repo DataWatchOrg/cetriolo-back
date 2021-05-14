@@ -74,7 +74,7 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_PROFESSOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Usuario buscarUsuarioPorId(Long id) {
         Optional<Usuario> usuarioOp = usuRepo.findById(id);
         if (usuarioOp.isPresent()) {
