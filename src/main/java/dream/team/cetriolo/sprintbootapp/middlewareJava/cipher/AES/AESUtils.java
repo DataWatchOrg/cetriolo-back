@@ -36,14 +36,4 @@ public class AESUtils {
         new SecureRandom().nextBytes(iv);
         return new IvParameterSpec(iv);
     }
-
-    public static void main(String[] args) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        String input = "Hello World";
-        SecretKey key = AESKeyGenerator.generateKey(128);
-        IvParameterSpec ivParameterSpec = generateIv();
-        String algorithm = "AES/CBC/PKCS5Padding";
-        String cipherText = encrypt(algorithm, input, key, ivParameterSpec);
-        String plainText = decrypt(algorithm, cipherText, key, ivParameterSpec);
-        System.out.println(plainText);
-    }
 }

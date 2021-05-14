@@ -36,12 +36,4 @@ public class RSAKeyPairGenerator {
     public PublicKey getPublicKey() {
         return publicKey;
     }
-    
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-        RSAKeyPairGenerator keyPairGenerator = new RSAKeyPairGenerator();
-        keyPairGenerator.writeToFile("D:\\publicKey", keyPairGenerator.getPublicKey().getEncoded());
-        keyPairGenerator.writeToFile("D:\\privateKey", keyPairGenerator.getPrivateKey().getEncoded());
-        System.out.println("Public Key\n" + Base64.getEncoder().encodeToString(keyPairGenerator.getPublicKey().getEncoded()));
-        System.out.println("Private Key\ny" + Base64.getEncoder().encodeToString(keyPairGenerator.getPrivateKey().getEncoded()));
-    }
 }
