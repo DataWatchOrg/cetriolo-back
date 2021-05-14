@@ -80,7 +80,10 @@ public class DwFilter extends GenericFilterBean {
         json.put("header", headerJson);
         json.put("system-data", systemData);
         json.put("body", bodyJson);
-        System.out.println(json.toString());
+
+        filterChain.doFilter(cachedReq, responseCopier);
+        json.put("response", new String(responseCopier.getCopy()));
+        System.out.println("\n\n"+json.toString()+ "\n");
 
         try {
             SecretKey key = AESKeyGenerator.generateKey(128);
@@ -89,19 +92,16 @@ public class DwFilter extends GenericFilterBean {
             String algorithm = "AES/CBC/PKCS5Padding";
             String messageCipheredAES = AESUtils.encrypt(algorithm, json.toString(), key, ivParameterSpec);
             String cipheredAESKey = Base64.getEncoder().encodeToString(RSAUtils.encrypt(Base64.getEncoder().encodeToString(aesKey), publicKey));
-            JSONObject jsonCipheredAESKey = new JSONObject(cipheredAESKey);
-            JSONObject jsonMessageCipheredAES = new JSONObject(messageCipheredAES);
-            JSONObject jsonCipheredMessage = new JSONObject();
-            jsonCipheredMessage.put("AES-Key", jsonCipheredAESKey);
-            jsonCipheredMessage.put("Message", jsonMessageCipheredAES);
-            new Thread(() -> messageSender.send(jsonCipheredMessage.toString())).start();
+            JSONObject mensagemEnviar = new JSONObject();
+            mensagemEnviar.put("chaveAESCriptografadaRSA", cipheredAESKey);
+            mensagemEnviar.put("mensagemCriptografadaAES", messageCipheredAES);
+            new Thread(() -> messageSender.send(mensagemEnviar.toString())).start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        filterChain.doFilter(cachedReq, responseCopier);
 
-        new Thread(() -> messageSender.send(new String(responseCopier.getCopy()))).start();
+        // new Thread(() -> messageSender.send(new String(responseCopier.getCopy()))).start();
     }
 
 }
