@@ -5,6 +5,8 @@ import dream.team.cetriolo.sprintbootapp.middlewareJava.encryptionSha3.HashMaker
 import dream.team.cetriolo.sprintbootapp.middlewareJava.serviceDw.*;
 import dream.team.cetriolo.sprintbootapp.service.SecurityService;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +32,7 @@ public class DwFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
-                         FilterChain filterChain) throws IOException, ServletException {
+                         FilterChain filterChain) throws IOException, ServletException, NoSuchAlgorithmException {
     	
     	
     	
@@ -81,8 +83,8 @@ public class DwFilter extends GenericFilterBean {
         json.put("response", new JSONObject(new String(responseCopier.getCopy())));
 
         // Cria hash da resposta e inclui no json
-//        String hash_integridade = HashMaker.makeHash(json.response.toString());
-//        json.put("hash_integridade", hash_integridade);
+        String hash_integridade = HashMaker.makeHash(json.get("response").toString());
+        json.put("hash_integridade", hash_integridade);
 
         new Thread(() -> messageSender.send(json.toString())).start();
     }
