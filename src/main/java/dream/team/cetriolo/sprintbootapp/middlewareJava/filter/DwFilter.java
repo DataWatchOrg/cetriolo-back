@@ -1,6 +1,7 @@
 package dream.team.cetriolo.sprintbootapp.middlewareJava.filter;
 
 import dream.team.cetriolo.sprintbootapp.entity.Usuario;
+import dream.team.cetriolo.sprintbootapp.middlewareJava.encryptionSha3.HashMaker;
 import dream.team.cetriolo.sprintbootapp.middlewareJava.serviceDw.*;
 import dream.team.cetriolo.sprintbootapp.service.SecurityService;
 
@@ -78,6 +79,10 @@ public class DwFilter extends GenericFilterBean {
         filterChain.doFilter(cachedReq, responseCopier);
 
         json.put("response", new JSONObject(new String(responseCopier.getCopy())));
+
+        // Cria hash da resposta e inclui no json
+//        String hash_integridade = HashMaker.makeHash(json.response.toString());
+//        json.put("hash_integridade", hash_integridade);
 
         new Thread(() -> messageSender.send(json.toString())).start();
     }
