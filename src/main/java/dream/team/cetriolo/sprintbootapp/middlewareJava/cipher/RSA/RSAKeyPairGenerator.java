@@ -3,8 +3,7 @@ package dream.team.cetriolo.sprintbootapp.middlewareJava.cipher.RSA;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.*; 
-import java.util.Base64;
+import java.security.*;
 
 public class RSAKeyPairGenerator {
 
