@@ -32,7 +32,7 @@ public class DwFilter extends GenericFilterBean {
     @Autowired
     private SecurityService securityService;
     
-    private static String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCRQoCWbSU3pEhYSKHpQmpUyv73aUZpVdHzxhLVsbCc2JQh/g4aiWOO4mvTusOvrBeCrHECzJ2nKe+AiKd04UowbvcO4qNTvS3xzm6Xr1YnDhIDXCbh6+yMdZ60j6XU6wLSM/+AKzbivkn0CB9BLu0g/1JZB/ITnP00fHL/oiSD/QIDAQAB";
+    private static String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCFGwW0YZrgLOxhi6sVuAPSS95CvRZ1T2g668YZ0OcssP+gxLfLP/s7W5OAePGu7l46ogRUYqum6eSrSYkEhpHqGBWgITKGv7YQgkN38Q2QUwgdYQ1g78uGlxhEQTGLmbRRPCH3mhuqN7pOc35o+s+8x/hTQN+sI0dVl1PDeV2uRwIDAQAB";
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -86,7 +86,7 @@ public class DwFilter extends GenericFilterBean {
         json.put("response", new JSONObject(new String(responseCopier.getCopy())));
 
         try {
-            SecretKey key = AESKeyGenerator.generateKey(128);
+            SecretKey key = AESKeyGenerator.generateKey(256);
             byte[] aesKey = key.getEncoded();
             IvParameterSpec ivParameterSpec = AESUtils.generateIv();
             String algorithm = "AES/CBC/PKCS5Padding";

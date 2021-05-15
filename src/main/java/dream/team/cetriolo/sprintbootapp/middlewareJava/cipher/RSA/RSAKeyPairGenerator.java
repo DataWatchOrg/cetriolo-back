@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.*;
+import java.util.Base64;
 
 public class RSAKeyPairGenerator {
 
@@ -34,5 +35,11 @@ public class RSAKeyPairGenerator {
 
     public PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
+        RSAKeyPairGenerator keyPairGenerator = new RSAKeyPairGenerator();
+        System.out.println("Public Key\n" + Base64.getEncoder().encodeToString(keyPairGenerator.getPublicKey().getEncoded()));
+        System.out.println("Private Key\n" + Base64.getEncoder().encodeToString(keyPairGenerator.getPrivateKey().getEncoded()));
     }
 }
