@@ -19,6 +19,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
 import java.util.Base64;
+import org.apache.commons.codec.binary.Hex;
 
 import org.json.JSONObject;
 
@@ -91,10 +92,11 @@ public class DwFilter extends GenericFilterBean {
             IvParameterSpec ivParameterSpec = AESUtils.generateIv();
             String algorithm = "AES/CBC/PKCS5Padding";
             String messageCipheredAES = AESUtils.encrypt(algorithm, json.toString(), key, ivParameterSpec);
-            String cipheredAESKey = Base64.getEncoder().encodeToString(RSAUtils.encrypt(Base64.getEncoder().encodeToString(aesKey), publicKey));
+            String cipheredAESKey = Base64.getEncoder().encodeToString(RSAUtils.encrypt(Hex.encodeHexString(aesKey), publicKey));
             JSONObject mensagemEnviar = new JSONObject();
             mensagemEnviar.put("chaveAESCriptografadaRSA", cipheredAESKey);
             mensagemEnviar.put("mensagemCriptografadaAES", messageCipheredAES);
+            mensagemEnviar.put("iv", Hex.encodeHexString(ivParameterSpec.getIV()));
             new Thread(() -> messageSender.send(mensagemEnviar.toString())).start();
         } catch (Exception e) {
             System.out.println(e.getMessage());
