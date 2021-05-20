@@ -67,7 +67,6 @@ public class DwFilter extends GenericFilterBean {
         headerJson.put("date", System.currentTimeMillis());
         headerJson.put("path", cachedReq.getServletPath());
 
-        Object usuarioLogado = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
      	Usuario usu = securityService.buscarUsuarioPorEmail(req.getUserPrincipal().getName());
         
         JSONObject systemData = new JSONObject();
@@ -80,7 +79,7 @@ public class DwFilter extends GenericFilterBean {
         JSONObject bodyJson = new JSONObject(body.toString());
 
         json.put("header", headerJson);
-        json.put("system-data", systemData);
+        json.put("system_data", systemData);
         json.put("body", bodyJson);
 
         filterChain.doFilter(cachedReq, responseCopier);
