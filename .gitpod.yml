@@ -3,3 +3,7 @@ ports:
 tasks:
   - init: mysql < DDL.sql && mysql < mock_usu_usuario.sql
 image: gitpod/workspace-mysql
+
+vscode:
+  extensions:
+    - vscode.java@1.56.2:38645558b1874ca8cf8c0776d2e89d60
