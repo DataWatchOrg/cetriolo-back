@@ -9,7 +9,6 @@ import dream.team.cetriolo.sprintbootapp.service.SecurityService;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.annotation.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.*;
 import org.springframework.web.filter.*;
 
