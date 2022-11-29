@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 @Component
 public class MessageSender {
 
-    private String rabbitUri = "amqps://hhzfkiof:tJMNDtlACAAay9plahJHon6BtXAeo3Ap@jackal.rmq.cloudamqp.com/hhzfkiof";
+    private String rabbitUri = "amqps://hhzfkiof:H7a48WnpOQqZdu8evXX30WSlQFMAyCU0@jackal.rmq.cloudamqp.com/hhzfkiof";
 
     private final static String QUEUE_NAME = "spring-boot";
 
