@@ -32,7 +32,7 @@ public class DwFilter extends GenericFilterBean {
     @Autowired
     private SecurityService securityService;
     
-    private static String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCFGwW0YZrgLOxhi6sVuAPSS95CvRZ1T2g668YZ0OcssP+gxLfLP/s7W5OAePGu7l46ogRUYqum6eSrSYkEhpHqGBWgITKGv7YQgkN38Q2QUwgdYQ1g78uGlxhEQTGLmbRRPCH3mhuqN7pOc35o+s+8x/hTQN+sI0dVl1PDeV2uRwIDAQAB";
+    private static String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCC2LAlHV2BkVZo49hdjMMyrcZapQlzIyB35cXgDuo+eZRZAsHYkH2vEj/RLddJVrKiLa71BSytdPPpncXWek/hR7PXgirm40qpx49L4vfKipCLtVaMLb8p4sjxu09E3HR9tZiU+00TiCSYlRJBeZtPAvzztmnvdCcKpQGEURNeNQIDAQAB";
 
     @Override
     public void doFilter(ServletRequest servletRequest,
