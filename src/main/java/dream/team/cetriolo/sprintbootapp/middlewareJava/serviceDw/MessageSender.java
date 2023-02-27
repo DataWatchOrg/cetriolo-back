@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 @Component
 public class MessageSender {
 
-    // private static final String RABBIT_URI = "amqps://hhzfkiof:tJMNDtlACAAay9plahJHon6BtXAeo3Ap@jackal.rmq.cloudamqp.com/hhzfkiof";
     private static final String RABBIT_URI = "amqps://leshjeua:z0mNOy_aGSTEkAR-fLPcUUyc6pwAeTlP@jackal.rmq.cloudamqp.com/leshjeua";
     private static final String QUEUE_NAME = "spring-boot";
 
